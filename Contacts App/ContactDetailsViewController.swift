@@ -6,18 +6,41 @@
 //  Copyright © 2017 anna. All rights reserved.
 //
 
-import UIKit
+import Eureka
 
 protocol ContactDetailsViewControllerDelegate: class {
     func contactDetailsViewControllerDidTapClose(_ contactDetailsViewController: ContactDetailsViewController)
 }
 
-class ContactDetailsViewController: UIViewController {
+class ContactDetailsViewController: FormViewController {
 
     public weak var delegate: ContactDetailsViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        form +++ Section("Contact Details")
+            <<< TextRow(){ row in
+                row.title = "Name"
+            }
+            <<< TextRow(){ row in
+                row.title = "Surname"
+            }
+            <<< PhoneRow(){ row in
+                row.title = "Phone Number"
+            }
+            <<< TextRow(){ row in
+                row.title = "Ringtone"
+            }
+            <<< TextAreaRow(){ row in
+                row.placeholder = "Note"
+            }
+            <<< ButtonRow() { button in
+                button.title = "Delete Contact"
+                }
+                .cellUpdate({ cell, row in
+                    cell.textLabel?.textColor = .red
+                })
     }
     
     init() {

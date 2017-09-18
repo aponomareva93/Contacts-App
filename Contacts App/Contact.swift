@@ -12,7 +12,7 @@ import RealmSwift
 class Contact: Object {
     dynamic var name = String()
     dynamic var surname = String()
-    dynamic var telephoneNumber = String()
+    dynamic var phoneNumber = String()
     dynamic var ringtoneName = String()
     dynamic var note: String?
     

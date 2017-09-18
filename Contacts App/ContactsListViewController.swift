@@ -35,10 +35,12 @@ class ContactsListViewController: UIViewController {
     }
     
     func addButtonTapped(sender: UIBarButtonItem) {
-        delegate?.contactsListViewControllerDidTapContact(contactsListViewController: self)
+        delegate?.contactsListViewControllerDidTapAddContact(contactsListViewController: self)
     }
 }
 
 protocol ContactsListViewControllerDelegate: class {
+    func contactsListViewControllerDidTapAddContact(contactsListViewController: ContactsListViewController)
+    
     func contactsListViewControllerDidTapContact(contactsListViewController: ContactsListViewController)
 }
