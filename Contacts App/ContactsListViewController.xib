@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ContactsListViewController" customModule="Contacts_App" customModuleProvider="target">
+            <connections>
+                <outlet property="contactsListTableView" destination="7pB-SZ-W5c" id="TOJ-SN-hjW"/>
+                <outlet property="searchContactsBar" destination="j1r-e7-4Oc" id="r2s-fl-tIk"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7pB-SZ-W5c">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <searchBar key="tableHeaderView" contentMode="redraw" id="j1r-e7-4Oc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </searchBar>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="7pB-SZ-W5c" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3Vn-Ck-Be2"/>
+                <constraint firstAttribute="bottom" secondItem="7pB-SZ-W5c" secondAttribute="bottom" id="k50-EP-Zt5"/>
+                <constraint firstAttribute="trailing" secondItem="7pB-SZ-W5c" secondAttribute="trailing" id="lw1-Ni-qfR"/>
+                <constraint firstItem="7pB-SZ-W5c" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="pbI-6b-Jjw"/>
+            </constraints>
+            <point key="canvasLocation" x="39.5" y="32.5"/>
+        </view>
+    </objects>
+</document>

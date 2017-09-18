@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>Eureka.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Contacts App.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Realm.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>RealmSwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>280765BB280E362D8DE713D3C8BCCC34</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4B1AC2645D220827226A29D4ECB7E79A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>675A114988AE198732ED4AD726408964</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BB710542422F0A206AD38D76567019CD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
