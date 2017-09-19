@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		954AEAE31F711ACA002FB7E7 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEAE21F711ACA002FB7E7 /* DataBase.swift */; };
 		9555B8671F70D315008EC24F /* ContactCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9555B8661F70D315008EC24F /* ContactCellModel.swift */; };
 		9555B86B1F70D609008EC24F /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9555B8691F70D609008EC24F /* ContactTableViewCell.swift */; };
 		9555B86C1F70D609008EC24F /* ContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9555B86A1F70D609008EC24F /* ContactTableViewCell.xib */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		38E70BC327CA543D02DCD0FB /* Pods_Contacts_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Contacts_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BC5DD9A7DA4A52AA7496E2B /* Pods-Contacts App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Contacts App/Pods-Contacts App.debug.xcconfig"; sourceTree = "<group>"; };
+		954AEAE21F711ACA002FB7E7 /* DataBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
 		9555B8661F70D315008EC24F /* ContactCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCellModel.swift; sourceTree = "<group>"; };
 		9555B8691F70D609008EC24F /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		9555B86A1F70D609008EC24F /* ContactTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTableViewCell.xib; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				9577CFC21F6FEC6300482E72 /* ContactsList */,
 				9577CFC31F6FEC6F00482E72 /* ContactDetails */,
 				9577CFA21F6F8FAA00482E72 /* Contact.swift */,
+				954AEAE21F711ACA002FB7E7 /* DataBase.swift */,
 				9577CF831F6F81B200482E72 /* AppDelegate.swift */,
 				9577CF951F6F825600482E72 /* Supporting Files */,
 			);
@@ -301,6 +304,7 @@
 			files = (
 				9555B86B1F70D609008EC24F /* ContactTableViewCell.swift in Sources */,
 				9577CFB21F6F9E3500482E72 /* ContactsListViewModel.swift in Sources */,
+				954AEAE31F711ACA002FB7E7 /* DataBase.swift in Sources */,
 				9577CFA31F6F8FAA00482E72 /* Contact.swift in Sources */,
 				9577CFA01F6F8CC600482E72 /* ContactsListViewController.swift in Sources */,
 				9577CF9C1F6F882400482E72 /* ContactDetailsViewController.swift in Sources */,

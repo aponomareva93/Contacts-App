@@ -9,12 +9,7 @@
 import Foundation
 
 public protocol Coordinator: class {
-    
-    /// The services that the coordinator can use
-    //var services: Services { get }
-    
-    var childCoordinators: [Coordinator] { get set }
-    
+    var childCoordinators: [Coordinator] { get set }    
 }
 
 public extension Coordinator {

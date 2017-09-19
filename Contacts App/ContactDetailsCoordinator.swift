@@ -27,8 +27,8 @@ class ContactDetailsCoordinator: RootViewCoordinator {
         return navigationController
     }()
     
-    func start() {
-        let viewModel = ContactDetailsViewModel()
+    func start(with contact: Contact? = nil) {
+        let viewModel = ContactDetailsViewModel(contact: contact)
         let contactDetailsViewController = ContactDetailsViewController(viewModel: viewModel)
         contactDetailsViewController.delegate = self
         self.navigationController.viewControllers = [contactDetailsViewController]
@@ -36,7 +36,7 @@ class ContactDetailsCoordinator: RootViewCoordinator {
 }
 
 extension ContactDetailsCoordinator: ContactDetailsViewControllerDelegate {
-    func contactDetailsViewControllerDidTapClose(_ contactDetailsViewController: ContactDetailsViewController) {
+    func contactDetailsViewControllerDidTapClose(_ contactDetailsViewController: ContactDetailsViewController?) {
         self.delegate?.contactDetailsCoordinatorDidRequestCancel(contactDetailsCoordinator: self)
     }
 }

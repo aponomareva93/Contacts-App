@@ -41,8 +41,12 @@ class AppCoordinator: RootViewCoordinator {
 }
 
 extension AppCoordinator: ContactsListViewControllerDelegate {
-    func contactsListViewControllerDidTapContact(contactsListViewController: ContactsListViewController) {
-        //contactsListViewControllerDidTapAddContact(contactsListViewController: contactsListViewController)
+    func contactsListViewControllerDidTapContact(contactsListViewController: ContactsListViewController, contact: Contact) {
+        let contactDeatilsCoordinator = ContactDetailsCoordinator()
+        contactDeatilsCoordinator.delegate = self
+        contactDeatilsCoordinator.start(with: contact)
+        self.addChildCoordinator(contactDeatilsCoordinator)
+        self.rootViewController.present(contactDeatilsCoordinator.rootViewController, animated: true, completion: nil)
     }
     
     func contactsListViewControllerDidTapAddContact(contactsListViewController: ContactsListViewController) {

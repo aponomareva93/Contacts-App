@@ -21,28 +21,17 @@ class ContactsListViewController: UIViewController {
     }()
     
     fileprivate var viewModel: ContactsListViewModel
-    
-    /*let collation = UILocalizedIndexedCollation.current()
-    var sections: [[AnyObject]] = []
-    var objects: [AnyObject] = [] {
-        didSet {
-            let selector: Selector = Selector(("surname"))
-            sections = Array(repeating: [], count: collation.sectionTitles.count)
-            
-            let sortedObjects = collation.sortedArray(from: objects, collationStringSelector: selector)
-            //print(sortedObjects)
-            for object in sortedObjects {
-                let sectionNumber = collation.section(for: object, collationStringSelector: selector)
-                sections[sectionNumber].append(object as AnyObject)
-            }
-            contactsListTableView.reloadData()
-        }
-    }*/
         
     override func viewDidLoad() {
         super.viewDidLoad()
         contactsListTableView?.dataSource = self
+        contactsListTableView?.delegate = self
         contactsListTableView?.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactCell")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        viewModel.refresh()
+        contactsListTableView?.reloadData()
     }
     
     init(viewModel: ContactsListViewModel) {
@@ -63,12 +52,10 @@ class ContactsListViewController: UIViewController {
 
 protocol ContactsListViewControllerDelegate: class {
     func contactsListViewControllerDidTapAddContact(contactsListViewController: ContactsListViewController)
-    func contactsListViewControllerDidTapContact(contactsListViewController: ContactsListViewController)
+    func contactsListViewControllerDidTapContact(contactsListViewController: ContactsListViewController, contact: Contact)
 }
 
 extension ContactsListViewController: UITableViewDataSource {
-    
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.sections.count
     }
@@ -96,5 +83,11 @@ extension ContactsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         return viewModel.collation.section(forSectionIndexTitle: index)
+    }
+}
+
+extension ContactsListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.contactsListViewControllerDidTapContact(contactsListViewController: self, contact: viewModel.sections[indexPath.section][indexPath.row])
     }
 }

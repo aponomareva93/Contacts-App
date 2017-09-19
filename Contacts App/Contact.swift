@@ -14,14 +14,12 @@ class Contact: Object {
     dynamic var name = String()
     dynamic var surname = String()
     dynamic var phoneNumber = String()
-    dynamic var ringtoneName = String()
     dynamic var note: String?
     
-    init(name: String, surname: String, phoneNumber: String, ringtoneName: String, note: String?) {
+    init(name: String, surname: String, phoneNumber: String, note: String?) {
         self.name = name
         self.surname = surname
         self.phoneNumber = phoneNumber
-        self.ringtoneName = ringtoneName
         self.note = note
         super.init()
     }
