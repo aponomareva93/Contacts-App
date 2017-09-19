@@ -10,7 +10,7 @@ import UIKit
 
 class ContactsListViewController: UIViewController {
 
-    @IBOutlet private weak var contactsListTableView: UITableView!
+    @IBOutlet fileprivate weak var contactsListTableView: UITableView!
     @IBOutlet private weak var searchContactsBar: UISearchBar!
     
     public weak var delegate: ContactsListViewControllerDelegate?
@@ -27,6 +27,7 @@ class ContactsListViewController: UIViewController {
         contactsListTableView?.dataSource = self
         contactsListTableView?.delegate = self
         contactsListTableView?.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactCell")
+        searchContactsBar?.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,5 +90,12 @@ extension ContactsListViewController: UITableViewDataSource {
 extension ContactsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.contactsListViewControllerDidTapContact(contactsListViewController: self, contact: viewModel.sections[indexPath.section][indexPath.row])
+    }
+}
+
+extension ContactsListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.search(searchText: searchText)
+        self.contactsListTableView.reloadData()
     }
 }

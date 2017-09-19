@@ -21,14 +21,24 @@ class ContactsListViewModel {
     
     func refresh() {
         contacts = DataBase.loadAllContacts()
-        
+        sortAlphabetically(data: contacts)
+    }
+    
+    func sortAlphabetically(data: [Contact]) {
         let selector: Selector = Selector(("surname"))
         sections = Array(repeating: [], count: collation.sectionTitles.count)
-        let sortedContacts = collation.sortedArray(from: contacts, collationStringSelector: selector)
-        for contact in sortedContacts {
-            let sectionNumber = collation.section(for: contact, collationStringSelector: selector)
-            sections[sectionNumber].append(contact as! Contact)
+        let sortedData = collation.sortedArray(from: data, collationStringSelector: selector)
+        for dataItem in sortedData {
+            let sectionNumber = collation.section(for: dataItem, collationStringSelector: selector)
+            sections[sectionNumber].append(dataItem as! Contact)
         }
+    }
+    
+    func search(searchText: String) {
+        let filteredData = searchText.isEmpty ? contacts : contacts.filter { (item: Contact) -> Bool in
+            return item.fullName().range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+        }
+        sortAlphabetically(data: filteredData)
     }
 }
 
