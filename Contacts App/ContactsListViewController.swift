@@ -15,16 +15,38 @@ class ContactsListViewController: UIViewController {
     
     public weak var delegate: ContactsListViewControllerDelegate?
     
-    lazy var addBarButtonItem: UIBarButtonItem = {
+    private lazy var addBarButtonItem: UIBarButtonItem = {
         let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
         return addBarButtonItem
     }()
+    
+    fileprivate var viewModel: ContactsListViewModel
+    
+    /*let collation = UILocalizedIndexedCollation.current()
+    var sections: [[AnyObject]] = []
+    var objects: [AnyObject] = [] {
+        didSet {
+            let selector: Selector = Selector(("surname"))
+            sections = Array(repeating: [], count: collation.sectionTitles.count)
+            
+            let sortedObjects = collation.sortedArray(from: objects, collationStringSelector: selector)
+            //print(sortedObjects)
+            for object in sortedObjects {
+                let sectionNumber = collation.section(for: object, collationStringSelector: selector)
+                sections[sectionNumber].append(object as AnyObject)
+            }
+            contactsListTableView.reloadData()
+        }
+    }*/
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        contactsListTableView?.dataSource = self
+        contactsListTableView?.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactCell")
     }
     
-    init() {
+    init(viewModel: ContactsListViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.title = "All Contacts"
         self.navigationItem.rightBarButtonItem = addBarButtonItem
@@ -41,6 +63,38 @@ class ContactsListViewController: UIViewController {
 
 protocol ContactsListViewControllerDelegate: class {
     func contactsListViewControllerDidTapAddContact(contactsListViewController: ContactsListViewController)
-    
     func contactsListViewControllerDidTapContact(contactsListViewController: ContactsListViewController)
+}
+
+extension ContactsListViewController: UITableViewDataSource {
+    
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.sections[section].count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath) as! ContactTableViewCell
+        cell.setup(viewModel: ContactCellModel(with: viewModel.sections[indexPath.section][indexPath.row]))
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if viewModel.sections[section].count == 0 {
+            return nil
+        }
+        return viewModel.collation.sectionTitles[section]
+    }
+    
+    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String] {
+        return viewModel.collation.sectionIndexTitles
+    }
+    
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return viewModel.collation.section(forSectionIndexTitle: index)
+    }
 }

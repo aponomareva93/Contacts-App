@@ -19,11 +19,7 @@ class AppCoordinator: RootViewCoordinator {
     
     let window: UIWindow
     
-    private lazy var navigationController: UINavigationController = {
-        let navigationController = UINavigationController()
-        //navigationController.isNavigationBarHidden = true
-        return navigationController
-    }()
+    private lazy var navigationController: UINavigationController = UINavigationController()
     
     public init(window: UIWindow) {
         self.window = window
@@ -36,7 +32,8 @@ class AppCoordinator: RootViewCoordinator {
     }
     
     private func showContactsListViewController() {
-        let contactsListViewController = ContactsListViewController()
+        let viewModel = ContactsListViewModel()
+        let contactsListViewController = ContactsListViewController(viewModel: viewModel)
         contactsListViewController.delegate = self
         self.navigationController.viewControllers = [contactsListViewController]
     }

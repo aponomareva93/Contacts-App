@@ -28,7 +28,8 @@ class ContactDetailsCoordinator: RootViewCoordinator {
     }()
     
     func start() {
-        let contactDetailsViewController = ContactDetailsViewController()
+        let viewModel = ContactDetailsViewModel()
+        let contactDetailsViewController = ContactDetailsViewController(viewModel: viewModel)
         contactDetailsViewController.delegate = self
         self.navigationController.viewControllers = [contactDetailsViewController]
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import Realm
 
 class Contact: Object {
     dynamic var name = String()
@@ -16,11 +17,31 @@ class Contact: Object {
     dynamic var ringtoneName = String()
     dynamic var note: String?
     
-    /*init(name: String, surname: String, telephoneNumber: String, ringtoneName: String, note: String?) {
+    init(name: String, surname: String, phoneNumber: String, ringtoneName: String, note: String?) {
         self.name = name
         self.surname = surname
-        self.telephoneNumber = telephoneNumber
+        self.phoneNumber = phoneNumber
         self.ringtoneName = ringtoneName
         self.note = note
-    }*/
+        super.init()
+    }
+    
+    required init() {
+        super.init()
+    }
+    
+    required init(realm: RLMRealm, schema: RLMObjectSchema) {
+        super.init(realm: realm, schema: schema)
+    }
+    
+    required init(value: Any, schema: RLMSchema) {
+        super.init(value: value, schema: schema)
+    }
+}
+
+
+extension Contact {
+    func fullName() -> String {
+        return String(surname + " " + name)
+    }
 }

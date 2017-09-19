@@ -14,10 +14,19 @@ protocol ContactDetailsViewControllerDelegate: class {
 
 class ContactDetailsViewController: FormViewController {
 
-    public weak var delegate: ContactDetailsViewControllerDelegate?
+    weak var delegate: ContactDetailsViewControllerDelegate?
+    
+    private var viewModel: ContactDetailsViewModel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    init(viewModel: ContactDetailsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        self.title = "Contact"
+        self.navigationItem.leftBarButtonItem = cancelBarButtonItem        
         
         form +++ Section("Contact Details")
             <<< TextRow(){ row in
@@ -41,12 +50,6 @@ class ContactDetailsViewController: FormViewController {
                 .cellUpdate({ cell, row in
                     cell.textLabel?.textColor = .red
                 })
-    }
-    
-    init() {
-        super.init(nibName: nil, bundle: nil)        
-        self.title = "Contact"
-        self.navigationItem.leftBarButtonItem = cancelBarButtonItem
     }
     
     required init?(coder aDecoder: NSCoder) {
