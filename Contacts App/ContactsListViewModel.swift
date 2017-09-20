@@ -25,7 +25,7 @@ class ContactsListViewModel {
     }
     
     func sortAlphabetically(data: [Contact]) {
-        let selector: Selector = Selector(("surname"))
+        let selector: Selector = Selector(("fullName"))
         sections = Array(repeating: [], count: collation.sectionTitles.count)
         let sortedData = collation.sortedArray(from: data, collationStringSelector: selector)
         for dataItem in sortedData {

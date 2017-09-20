@@ -11,6 +11,8 @@ import Foundation
 class ContactDetailsViewModel {
     var contact: Contact?
     
+    let ringtones = ["Ringtone1", "Ringtone2", "Ringtone3", "Ringtone4", "Ringtone5"]
+    
     init(contact: Contact? = nil) {
         self.contact = contact
     }

@@ -13,13 +13,29 @@ protocol ContactDetailsViewControllerDelegate: class {
 }
 
 class ContactDetailsViewController: FormViewController {
+    
+    lazy var cancelBarButtonItem: UIBarButtonItem = {
+        let cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
+        return cancelBarButtonItem
+    }()
+    
+    lazy var saveBarButtonItem: UIBarButtonItem = {
+        let saveBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
+        return saveBarButtonItem
+    }()
 
     weak var delegate: ContactDetailsViewControllerDelegate?
     
-    private var viewModel: ContactDetailsViewModel
+    fileprivate var viewModel: ContactDetailsViewModel
+    
+    let ringtonePickerView = UIPickerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ringtonePickerView.delegate = self
+        ringtonePickerView.dataSource = self
+        view?.addSubview(ringtonePickerView)
+        ringtonePickerView.isHidden = true
     }
     
     init(viewModel: ContactDetailsViewModel) {
@@ -45,6 +61,11 @@ class ContactDetailsViewController: FormViewController {
                 row.tag = "PhoneRow"
                 row.value = self.viewModel.contact?.phoneNumber
             }
+            <<< RingtoneRow(){ row in
+                row.title = "Ringtone"
+                row.tag = "RingtoneRow"
+                //row.onCellSelection(chooseRingtone)
+            }
             <<< TextAreaRow(){ row in
                 row.placeholder = "Note"
                 row.tag = "NoteRow"
@@ -56,25 +77,15 @@ class ContactDetailsViewController: FormViewController {
                 button.tag = "DeleteButton"
                 button.onCellSelection(deleteButtonTapped)
                 }
-                .cellUpdate({ cell, row in
+                .cellUpdate { cell, row in
                     cell.textLabel?.textColor = .red
-                })
+                }
         }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    lazy var cancelBarButtonItem: UIBarButtonItem = {
-        let cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
-        return cancelBarButtonItem
-    }()
-    
-    lazy var saveBarButtonItem: UIBarButtonItem = {
-        let saveBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
-        return saveBarButtonItem
-    }()
     
     func cancelButtonTapped(sender: UIBarButtonItem) {
         delegate?.contactDetailsViewControllerDidTapClose(self)
@@ -103,6 +114,10 @@ class ContactDetailsViewController: FormViewController {
         alert.addAction(noAction)
         present(alert, animated: true, completion: nil)
     }
+    
+    func chooseRingtone(cell: RingtoneCell, row: RingtoneRow) {
+        ringtonePickerView.isHidden = false
+    }
 }
 
 extension UIViewController {
@@ -114,4 +129,25 @@ extension UIViewController {
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
+}
+
+extension ContactDetailsViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return viewModel.ringtones.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return viewModel.ringtones[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        pickerView.isHidden = true
+    }
+}
+
+extension ContactDetailsViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
 }
