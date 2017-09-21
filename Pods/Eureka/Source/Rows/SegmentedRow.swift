@@ -61,7 +61,6 @@ open class SegmentedCell<T: Equatable> : Cell<T>, CellType {
         }
 
         NotificationCenter.default.addObserver(forName: Notification.Name.UIContentSizeCategoryDidChange, object: nil, queue: nil) { [weak self] _ in
-            self?.titleLabel = self?.textLabel
             self?.setNeedsUpdateConstraints()
         }
         contentView.addSubview(titleLabel!)
@@ -99,6 +98,7 @@ open class SegmentedCell<T: Equatable> : Cell<T>, CellType {
 
     open override func setup() {
         super.setup()
+        height = { BaseRow.estimatedRowHeight }
         selectionStyle = .none
         segmentedControl.addTarget(self, action: #selector(SegmentedCell.valueChanged), for: .valueChanged)
     }
@@ -128,14 +128,7 @@ open class SegmentedCell<T: Equatable> : Cell<T>, CellType {
 
     func updateSegmentedControl() {
         segmentedControl.removeAllSegments()
-        
-        (row as! SegmentedRow<T>).options.reversed().forEach {
-            if let image = $0 as? UIImage {
-                segmentedControl.insertSegment(with: image, at: 0, animated: false)
-            } else {
-                segmentedControl.insertSegment(withTitle: row.displayValueFor?($0) ?? "", at: 0, animated: false)
-            }
-        }
+        items().enumerated().forEach { segmentedControl.insertSegment(withTitle: $0.element, at: $0.offset, animated: false) }
     }
 
     open override func updateConstraints() {
@@ -171,6 +164,14 @@ open class SegmentedCell<T: Equatable> : Cell<T>, CellType {
         }
         contentView.addConstraints(dynamicConstraints)
         super.updateConstraints()
+    }
+
+    func items() -> [String] {// or create protocol for options
+        var result = [String]()
+        for object in (row as! SegmentedRow<T>).options {
+            result.append(row.displayValueFor?(object) ?? "")
+        }
+        return result
     }
 
     func selectedIndex() -> Int? {

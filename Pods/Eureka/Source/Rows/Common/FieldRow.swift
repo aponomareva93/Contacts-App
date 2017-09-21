@@ -157,7 +157,6 @@ open class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T: 
         }
 
         NotificationCenter.default.addObserver(forName: Notification.Name.UIContentSizeCategoryDidChange, object: nil, queue: nil) { [weak self] _ in
-            self?.titleLabel = self?.textLabel
             self?.setNeedsUpdateConstraints()
         }
     }

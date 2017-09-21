@@ -212,11 +212,6 @@ extension BaseRow {
         removeFromRowObservers()
     }
 
-    final func willBeRemovedFromSection() {
-        willBeRemovedFromForm()
-        section = nil
-    }
-
     final func removeFromHiddenRowObservers() {
         guard let h = hidden else { return }
         switch h {

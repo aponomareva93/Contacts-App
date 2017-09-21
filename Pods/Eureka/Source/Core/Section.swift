@@ -193,7 +193,6 @@ open class Section {
 
     // MARK: Private
     lazy var kvoWrapper: KVOWrapper = { [unowned self] in return KVOWrapper(section: self) }()
-    
     var headerView: UIView?
     var footerView: UIView?
     var hiddenCache = false
@@ -212,31 +211,12 @@ extension Section : MutableCollection, BidirectionalCollection {
             }
             return kvoWrapper.rows[position] as! BaseRow
         }
-        set {
-            if position > kvoWrapper.rows.count {
-                assertionFailure("Section: Index out of bounds")
-            }
-
-            if position < kvoWrapper.rows.count {
-                let oldRow = kvoWrapper.rows[position]
-                let oldRowIndex = kvoWrapper._allRows.index(of: oldRow as! BaseRow)!
-                // Remove the previous row from the form
-                kvoWrapper._allRows[oldRowIndex].willBeRemovedFromSection()
-                kvoWrapper._allRows[oldRowIndex] = newValue
-            } else {
-                kvoWrapper._allRows.append(newValue)
-            }
-
-            kvoWrapper.rows[position] = newValue
-            newValue.wasAddedTo(section: self)
-        }
+        set { kvoWrapper.rows[position] = newValue }
     }
 
     public subscript (range: Range<Int>) -> [BaseRow] {
         get { return kvoWrapper.rows.objects(at: IndexSet(integersIn: range)) as! [BaseRow] }
-        set {
-            replaceSubrange(range, with: newValue)
-        }
+        set { kvoWrapper.rows.replaceObjects(in: NSRange(range), withObjectsFrom: newValue) }
     }
 
     public func index(after i: Int) -> Int {return i + 1}
@@ -265,7 +245,7 @@ extension Section : RangeReplaceableCollection {
     public func replaceSubrange<C: Collection>(_ subRange: Range<Int>, with newElements: C) where C.Iterator.Element == BaseRow {
         for i in subRange.lowerBound..<subRange.upperBound {
             if let row = kvoWrapper.rows.object(at: i) as? BaseRow {
-                row.willBeRemovedFromSection()
+                row.willBeRemovedFromForm()
                 kvoWrapper._allRows.remove(at: kvoWrapper._allRows.index(of: row)!)
             }
         }
@@ -282,22 +262,10 @@ extension Section : RangeReplaceableCollection {
     public func removeAll(keepingCapacity keepCapacity: Bool = false) {
         // not doing anything with capacity
         for row in kvoWrapper._allRows {
-            row.willBeRemovedFromSection()
+            row.willBeRemovedFromForm()
         }
         kvoWrapper.rows.removeAllObjects()
         kvoWrapper._allRows.removeAll()
-    }
-
-    @discardableResult
-    public func remove(at position: Int) -> BaseRow {
-        let row = kvoWrapper.rows.object(at: position) as! BaseRow
-        row.willBeRemovedFromSection()
-        kvoWrapper.rows.removeObject(at: position)
-        if let index = kvoWrapper._allRows.index(of: row) {
-            kvoWrapper._allRows.remove(at: index)
-        }
-
-        return row
     }
 
     private func indexForInsertion(at index: Int) -> Int {

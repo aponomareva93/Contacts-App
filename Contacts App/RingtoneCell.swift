@@ -1,5 +1,5 @@
 //
-//  ringtoneCell.swift
+//  RingtoneCell.swift
 //  Contacts App
 //
 //  Created by anna on 20.09.17.

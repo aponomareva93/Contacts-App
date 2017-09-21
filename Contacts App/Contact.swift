@@ -12,15 +12,19 @@ import Realm
 
 class Contact: Object {
     dynamic var name = String()
-    dynamic var surname = String()
-    dynamic var phoneNumber = String()
+    dynamic var surname: String?
+    dynamic var phone = String()
+    dynamic var ringtone: String?
     dynamic var note: String?
+    dynamic var imageName: String?
     
-    init(name: String, surname: String, phoneNumber: String, note: String?) {
+    init(name: String, surname: String?, phone: String, ringtone: String?, note: String?, imageName: String?) {
         self.name = name
         self.surname = surname
-        self.phoneNumber = phoneNumber
+        self.phone = phone
         self.note = note
+        self.ringtone = ringtone
+        self.imageName = imageName
         super.init()
     }
     
@@ -35,11 +39,11 @@ class Contact: Object {
     required init(value: Any, schema: RLMSchema) {
         super.init(value: value, schema: schema)
     }
-}
-
-
-extension Contact {
+    
     func fullName() -> String {
+        guard let surname = self.surname else {
+            return String(name)
+        }
         return String(surname + " " + name)
     }
 }

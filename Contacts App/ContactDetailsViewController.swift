@@ -1,5 +1,5 @@
 //
-//  AddContactViewController.swift
+//  ContactDetaulsViewController.swift
 //  Contacts App
 //
 //  Created by anna on 18.09.17.
@@ -7,6 +7,7 @@
 //
 
 import Eureka
+import ImageRow
 
 protocol ContactDetailsViewControllerDelegate: class {
     func contactDetailsViewControllerDidTapClose(_ contactDetailsViewController: ContactDetailsViewController?)
@@ -28,53 +29,69 @@ class ContactDetailsViewController: FormViewController {
     
     fileprivate var viewModel: ContactDetailsViewModel
     
-    let ringtonePickerView = UIPickerView()
+    var newImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ringtonePickerView.delegate = self
-        ringtonePickerView.dataSource = self
-        view?.addSubview(ringtonePickerView)
-        ringtonePickerView.isHidden = true
+        tableView?.rowHeight = Constants.contactDetailsTableRowHeight
     }
     
     init(viewModel: ContactDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.title = "Contact"
-        self.navigationItem.leftBarButtonItem = cancelBarButtonItem
-        self.navigationItem.rightBarButtonItem = saveBarButtonItem
+        title = viewModel.viewTitle
+        navigationItem.leftBarButtonItem = cancelBarButtonItem
+        navigationItem.rightBarButtonItem = saveBarButtonItem
         
-        form +++ Section("Contact Details")
-            <<< TextRow(){ row in
-                row.title = "Name"
-                row.tag = "NameRow"
-                row.value = self.viewModel.contact?.name
+        form +++ Section(Constants.contactDetailsTableTitle)
+            
+            <<< ImageRow() { row in
+                row.tag = Constants.imageRowTag
+                row.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum, .Camera]
+                row.clearAction = .yes(style: .destructive)
+                row.value = viewModel.contactImage                
+                row.onChange { [weak self] row in
+                    if row.value == nil {
+                        row.value = self?.viewModel.placeholderImage
+                        self?.viewModel.contactHasImage = false
+                    } else {
+                        self?.viewModel.contactHasImage = true
+                    }
+                }
+                }.cellUpdate { cell, row in
+                    cell.accessoryView?.layer.cornerRadius = 17
+                    cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+                    
             }
             <<< TextRow(){ row in
-                row.title = "Surname"
-                row.tag = "SurnameRow"
-                row.value = self.viewModel.contact?.surname
+                row.title = Constants.nameRowTitle
+                row.tag = Constants.nameRowTag
+                row.value = viewModel.contactName
+            }
+            <<< TextRow(){ row in
+                row.title = Constants.surnameRowTitle
+                row.tag = Constants.surnameRowTag
+                row.value = viewModel.contactSurname
             }
             <<< PhoneRow(){ row in
-                row.title = "Phone Number"
-                row.tag = "PhoneRow"
-                row.value = self.viewModel.contact?.phoneNumber
+                row.title = Constants.phoneRowTitle
+                row.tag = Constants.phoneRowTag
+                row.value = viewModel.contactPhone
             }
             <<< RingtoneRow(){ row in
-                row.title = "Ringtone"
-                row.tag = "RingtoneRow"
-                //row.onCellSelection(chooseRingtone)
+                row.title = Constants.ringtoneRowTitle
+                row.tag = Constants.ringtoneRowTag
+                row.value = viewModel.contactRingtone
             }
             <<< TextAreaRow(){ row in
-                row.placeholder = "Note"
-                row.tag = "NoteRow"
-                row.value = self.viewModel.contact?.note
+                row.placeholder = Constants.noteRowTag
+                row.tag = Constants.noteRowTag
+                row.value = viewModel.contactNote
             }
-        if self.viewModel.contact != nil {
+        if viewModel.isNewContact {
             form +++ ButtonRow() { button in
-                button.title = "Delete Contact"
-                button.tag = "DeleteButton"
+                button.title = Constants.seleteButtonTitle
+                button.tag = Constants.deleteButtonTag
                 button.onCellSelection(deleteButtonTapped)
                 }
                 .cellUpdate { cell, row in
@@ -94,7 +111,7 @@ class ContactDetailsViewController: FormViewController {
     func saveButtonTapped(sender: UIBarButtonItem) {
         let layouts = form.values()
         do {
-            try viewModel.saveContact(name: layouts["NameRow"] as? String, surname: layouts["SurnameRow"] as? String, phoneNumber: layouts["PhoneRow"] as? String, note: layouts["NoteRow"] as? String)
+            try viewModel.saveContact(name: layouts[Constants.nameRowTag] as? String, surname: layouts[Constants.surnameRowTag] as? String, phone: layouts[Constants.phoneRowTag] as? String, ringtone: layouts[Constants.ringtoneRowTag] as? String, note: layouts[Constants.noteRowTag] as? String, image: layouts[Constants.imageRowTag] as? UIImage)
             showAlert(withTitle: "Success", message: "Contact saved", okButtonTapped: { [weak self] in
                 self?.delegate?.contactDetailsViewControllerDidTapClose(self)
             })
@@ -114,10 +131,6 @@ class ContactDetailsViewController: FormViewController {
         alert.addAction(noAction)
         present(alert, animated: true, completion: nil)
     }
-    
-    func chooseRingtone(cell: RingtoneCell, row: RingtoneRow) {
-        ringtonePickerView.isHidden = false
-    }
 }
 
 extension UIViewController {
@@ -131,23 +144,22 @@ extension UIViewController {
     }
 }
 
-extension ContactDetailsViewController: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return viewModel.ringtones.count
-    }
+extension Constants {
+    static let contactDetailsTableRowHeight: CGFloat = 45.0
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return viewModel.ringtones[row]
-    }
+    static let contactDetailsTableTitle = "Contact Details"
+    static let imageRowTag = "ImageRow"
+    static let nameRowTag = "NameRow"
+    static let surnameRowTag = "SurnameRow"
+    static let phoneRowTag = "PhoneRow"
+    static let ringtoneRowTag = "RingtoneRow"
+    static let noteRowTag = "NoteRow"
+    static let deleteButtonTag = "DeleteButton"
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        pickerView.isHidden = true
-    }
-}
-
-extension ContactDetailsViewController: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
+    static let nameRowTitle = "Name"
+    static let surnameRowTitle = "Surname"
+    static let phoneRowTitle = "Phone Number"
+    static let ringtoneRowTitle = "Ringtone"
+    static let seleteButtonTitle = "Delete Contact"
+    static let noteRowPlaceholder = "Note"
 }

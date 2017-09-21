@@ -41,8 +41,8 @@ open class SliderCell: Cell<Float>, CellType {
         NotificationCenter.default.addObserver(forName: Notification.Name.UIContentSizeCategoryDidChange, object: nil, queue: nil) { [weak self] _ in
             guard let me = self else { return }
             if me.shouldShowTitle {
-                me.titleLabel = me.textLabel
-                me.valueLabel = me.detailTextLabel
+                me.contentView.addSubview(me.titleLabel)
+                me.contentView.addSubview(me.valueLabel!)
                 me.addConstraints()
             }
         }
@@ -97,7 +97,6 @@ open class SliderCell: Cell<Float>, CellType {
         valueLabel.isHidden = !shouldShowTitle && !awakeFromNibCalled
         titleLabel.isHidden = valueLabel.isHidden
         slider.value = row.value ?? 0.0
-        slider.isEnabled = !row.isDisabled
     }
 
     func addConstraints() {

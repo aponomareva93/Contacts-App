@@ -4,5 +4,6 @@ platform :ios, '9.0'
 target 'Contacts App' do
   use_frameworks!
   pod 'RealmSwift'
-  pod 'Eureka'
+  pod 'Eureka', '~> 3.0'
+  pod 'ImageRow', '~> 2.0'
 end

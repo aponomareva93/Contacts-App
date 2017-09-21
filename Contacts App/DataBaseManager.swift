@@ -1,5 +1,5 @@
 //
-//  DataBase.swift
+//  DataBaseManager.swift
 //  Contacts App
 //
 //  Created by anna on 19.09.17.
@@ -9,32 +9,32 @@
 import Foundation
 import RealmSwift
 
-class DataBase {
+class DataBaseManager {
+    private static let realm = try! Realm()
+    
     class func loadAllContacts() -> [Contact] {
-        let realm = try! Realm()
         let contacts = realm.objects(Contact.self).toArray()
         return contacts
     }
     
     class func addNewContact(contact: Contact) {
-        let realm = try! Realm()
         try! realm.write {
             realm.add(contact)
         }
     }
     
-    class func editExistingContact(contact: Contact, name: String, surname: String, phoneNumber: String, note: String?) {
-        let realm = try! Realm()
+    class func editExistingContact(contact: Contact, name: String, surname: String?, phone: String, ringtone: String?, note: String?, imageName: String?) {
         try! realm.write {
             contact.name = name
             contact.surname = surname
-            contact.phoneNumber = phoneNumber
+            contact.phone = phone
             contact.note = note
+            contact.ringtone = ringtone
+            contact.imageName = imageName
         }
     }
     
     class func deleteContact(contact: Contact) {
-        let realm = try! Realm()
         try! realm.write {
             realm.delete(contact)
         }

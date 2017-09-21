@@ -20,7 +20,7 @@ class ContactsListViewModel {
     }
     
     func refresh() {
-        contacts = DataBase.loadAllContacts()
+        contacts = DataBaseManager.loadAllContacts()
         sortAlphabetically(data: contacts)
     }
     

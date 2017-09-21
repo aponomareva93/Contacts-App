@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ImageRow.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Contacts App.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,12 +32,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>280765BB280E362D8DE713D3C8BCCC34</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4B1AC2645D220827226A29D4ECB7E79A</key>
+		<key>37900E72EC972AF6ED5D988BD1F194A0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -42,7 +42,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BB710542422F0A206AD38D76567019CD</key>
+		<key>69FBD415159059C94C73BFFF4FB6325F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BFB23863B762BFA6AC405A18E5F29AF7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FCA2D9F71726D3EC321426FC19A41685</key>
 		<dict>
 			<key>primary</key>
 			<true/>

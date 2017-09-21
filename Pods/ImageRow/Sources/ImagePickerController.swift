@@ -1,5 +1,5 @@
-//  DecimalFormatter.swift
-//  Eureka ( https://github.com/xmartlabs/Eureka )
+//  ImagePickerController.swift
+//  ImageRow ( https://github.com/EurekaCommunity/ImageRow )
 //
 //  Copyright (c) 2016 Xmartlabs SRL ( http://xmartlabs.com )
 //
@@ -22,29 +22,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Eureka
 import Foundation
 
-open class DecimalFormatter: NumberFormatter, FormatterProtocol {
-
-    public override init() {
-        super.init()
-        locale = Locale.current
-        numberStyle = .decimal
-        minimumFractionDigits = 2
-        maximumFractionDigits = 2
+/// Selector Controller used to pick an image
+open class ImagePickerController : UIImagePickerController, TypedRowControllerType, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    /// The row that pushed or presented this controller
+    public var row: RowOf<UIImage>!
+    
+    /// A closure to be called when the controller disappears.
+    public var onDismissCallback : ((UIViewController) -> ())?
+    
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        delegate = self
     }
-
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    
+    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        (row as? ImageRow)?.imageURL = info[UIImagePickerControllerReferenceURL] as? URL
+        row.value = info[UIImagePickerControllerOriginalImage] as? UIImage
+        onDismissCallback?(self)
     }
-
-    override open func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?, for string: String, range rangep: UnsafeMutablePointer<NSRange>?) throws {
-        guard obj != nil else { return  }
-        let str = string.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
-        obj?.pointee = NSNumber(value: (Double(str) ?? 0.0)/Double(pow(10.0, Double(minimumFractionDigits))))
+    
+    open func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
+        onDismissCallback?(self)
     }
-
-    open func getNewPosition(forPosition position: UITextPosition, inTextInput textInput: UITextInput, oldValue: String?, newValue: String?) -> UITextPosition {
-        return textInput.position(from: position, offset:((newValue?.characters.count ?? 0) - (oldValue?.characters.count ?? 0))) ?? position
-    }
+    
 }
