@@ -36,7 +36,6 @@ class ContactDetailsViewController: FormViewController {
         var fixedSpaceButton = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         
         var nextButton = UIBarButtonItem(title: "<", style: .plain, target: self, action: #selector(previousKeyPressed(key:)))
-        nextButton.width = 50.0
         var previousButton = UIBarButtonItem(title: ">", style: .plain, target: self, action: #selector(nextKeyPressed(key:)))
         
         toolbar.setItems([fixedSpaceButton, nextButton, fixedSpaceButton, previousButton, flexibleSpaceButton, doneButton], animated: false)
@@ -81,8 +80,24 @@ class ContactDetailsViewController: FormViewController {
         }
     }
     
-    var activeTetxField = UITextField()
-
+    func setReturnKeyType() {
+        for row in form.rows {
+            if row != form.rows.last {
+                if let cell = row.baseCell as? _FieldCell<String> {
+                    cell.textField.returnKeyType = UIReturnKeyType.next
+                } else if let cell = row.baseCell as? _TextAreaCell<String> {
+                    cell.textView.returnKeyType = UIReturnKeyType.next
+                }
+            } else {
+                if let cell = row.baseCell as? _FieldCell<String> {
+                    cell.textField.returnKeyType = UIReturnKeyType.done
+                } else if let cell = row.baseCell as? _TextAreaCell<String> {
+                    cell.textView.returnKeyType = UIReturnKeyType.done
+                }
+            }
+        }
+    }
+    
     weak var delegate: ContactDetailsViewControllerDelegate?
     
     fileprivate var viewModel: ContactDetailsViewModel
@@ -115,34 +130,30 @@ class ContactDetailsViewController: FormViewController {
                     }
                 }
                 }.cellUpdate { cell, row in
-                    cell.accessoryView?.layer.cornerRadius = 17
-                    cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+                    cell.accessoryView?.layer.cornerRadius = Constants.imageCornerRadius
+                    cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: Constants.imageFrameSize, height: Constants.imageFrameSize)
                     
             }
             <<< TextRow(){ row in
-                row.title = Constants.nameRowTitle
+                row.title = Constants.rowTitles.nameRowTitle
                 row.tag = Constants.cellTags.nameRowTag
                 row.value = viewModel.contactName
-                row.keyboardReturnType?.defaultKeyboardType = UIReturnKeyType.next
             }
             <<< TextRow(){ row in
-                row.title = Constants.surnameRowTitle
+                row.title = Constants.rowTitles.surnameRowTitle
                 row.tag = Constants.cellTags.surnameRowTag
                 row.value = viewModel.contactSurname
-                row.keyboardReturnType?.defaultKeyboardType = UIReturnKeyType.next
             }
             <<< PhoneRow(){ row in
-                row.title = Constants.phoneRowTitle
+                row.title = Constants.rowTitles.phoneRowTitle
                 row.tag = Constants.cellTags.phoneRowTag
                 row.value = viewModel.contactPhone
-                row.keyboardReturnType?.defaultKeyboardType = UIReturnKeyType.next
                 }.cellUpdate { [weak self] cell, row in
-                   //cell.textField.delegate = self
                     cell.textField.inputAccessoryView = self?.inputToolbar
             }
             <<< TextRow() {
                 row in
-                row.title = Constants.ringtoneRowTitle
+                row.title = Constants.rowTitles.ringtoneRowTitle
                 row.tag = Constants.cellTags.ringtoneRowTag
                 row.value = viewModel.contactRingtone
                 }.cellUpdate { cell, row in
@@ -153,14 +164,19 @@ class ContactDetailsViewController: FormViewController {
             <<< TextAreaRow(){ row in
                 row.tag = Constants.cellTags.noteRowTag
                 row.value = viewModel.contactNote
-                row.placeholder = Constants.noteRowTitle
+                row.placeholder = Constants.rowTitles.noteRowTitle
                 }.cellUpdate{ cell, row in
-                    cell.textView.returnKeyType = UIReturnKeyType.done
-                    //cell.textView.delegate = self
+                    if let placeholderLabel = cell.placeholderLabel {
+                        placeholderLabel.isHidden = false
+                        placeholderLabel.text = Constants.rowTitles.noteRowTitle
+                        cell.textView.contentInset = UIEdgeInsetsMake(placeholderLabel.frame.width, 0.0, 0.0, 0.0)
+                    }
+                    cell.textView.delegate = self
         }
-        if viewModel.isNewContact {
+        setReturnKeyType()
+        if !viewModel.isNewContact {
             form +++ ButtonRow() { button in
-                button.title = Constants.seleteButtonTitle
+                button.title = Constants.rowTitles.seleteButtonTitle
                 button.tag = Constants.cellTags.deleteButtonTag
                 button.onCellSelection(deleteButtonTapped)
                 }
@@ -211,12 +227,6 @@ class ContactDetailsViewController: FormViewController {
     }
 }
 
-extension ContactDetailsViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        activeTetxField = textField
-    }
-}
-
 extension ContactDetailsViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return Constants.ringtones.count
@@ -227,7 +237,13 @@ extension ContactDetailsViewController: UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        (form.rowBy(tag: Constants.cellTags.ringtoneRowTag) as! TextRow).value = Constants.ringtones[row]
+        for pickerRow in form.rows {
+            if let cell = pickerRow.baseCell as? _FieldCell<String>,
+                cell.textField.isFirstResponder {
+                cell.textField.text = Constants.ringtones[row]
+                cell.row.value = Constants.ringtones[row]
+            }
+        }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -235,18 +251,21 @@ extension ContactDetailsViewController: UIPickerViewDelegate {
     }
 }
 
-/*extension ContactDetailsViewController: UITextViewDelegate {
+extension ContactDetailsViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        //(form.rowBy(tag: Constants.cellTags.noteRowTag) as! TextAreaRow).value = textView.text
-        if(text == "\n") {
-            print(textView.text)
-            //(form.rowBy(tag: Constants.cellTags.noteRowTag) as! TextAreaRow).value = textView.text
-            textView.resignFirstResponder()
-            return false
+        for row in form.rows {
+            if let cell = row.baseCell as? TextAreaCell,
+                cell.textView.isFirstResponder {
+                if text == "\n" {
+                    textView.resignFirstResponder()
+                    cell.row.value = textView.text
+                    return false
+                }
+            }
         }
         return true
     }
-}*/
+}
 
 extension UIViewController {
     func showAlert(withTitle title: String, message: String, okButtonTapped: (() -> Void)? = nil) {
@@ -261,6 +280,8 @@ extension UIViewController {
 
 extension Constants {
     static let contactDetailsTableRowHeight: CGFloat = 45.0
+    static let imageCornerRadius: CGFloat = 17.0
+    static let imageFrameSize: CGFloat = 34.0
     
     static let contactDetailsTableTitle = "Contact Details"
     static let cellTags = (
@@ -273,12 +294,14 @@ extension Constants {
         deleteButtonTag: "DeleteButton"
     )
     
-    static let nameRowTitle = "Name"
-    static let surnameRowTitle = "Surname"
-    static let phoneRowTitle = "Phone Number"
-    static let ringtoneRowTitle = "Ringtone"
-    static let seleteButtonTitle = "Delete Contact"
-    static let noteRowTitle = "Note"
+    static let rowTitles = (
+        nameRowTitle: "Name",
+        surnameRowTitle: "Surname",
+        phoneRowTitle: "Phone Number",
+        ringtoneRowTitle: "Ringtone",
+        seleteButtonTitle: "Delete Contact",
+        noteRowTitle: "Note"
+    )
     
     static let ringtones = [
         "Ringtone 1",
