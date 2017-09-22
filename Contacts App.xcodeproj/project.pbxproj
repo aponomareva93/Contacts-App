@@ -7,10 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		951165F41F72706600386BB4 /* RingtoneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 951165F31F72706600386BB4 /* RingtoneCell.xib */; };
 		951165F71F727AAD00386BB4 /* Portrait_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 951165F61F727AAD00386BB4 /* Portrait_placeholder.png */; };
-		95192CEF1F725C6600F3F37A /* RingtoneCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95192CEE1F725C6600F3F37A /* RingtoneCell.swift */; };
-		95192CF11F72623600F3F37A /* RingtoneRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95192CF01F72623600F3F37A /* RingtoneRow.swift */; };
 		954AEAE31F711ACA002FB7E7 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEAE21F711ACA002FB7E7 /* DataBaseManager.swift */; };
 		9555B8671F70D315008EC24F /* ContactCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9555B8661F70D315008EC24F /* ContactCellModel.swift */; };
 		9555B86B1F70D609008EC24F /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9555B8691F70D609008EC24F /* ContactTableViewCell.swift */; };
@@ -36,10 +33,7 @@
 /* Begin PBXFileReference section */
 		38E70BC327CA543D02DCD0FB /* Pods_Contacts_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Contacts_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BC5DD9A7DA4A52AA7496E2B /* Pods-Contacts App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Contacts App/Pods-Contacts App.debug.xcconfig"; sourceTree = "<group>"; };
-		951165F31F72706600386BB4 /* RingtoneCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RingtoneCell.xib; sourceTree = "<group>"; };
 		951165F61F727AAD00386BB4 /* Portrait_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Portrait_placeholder.png; sourceTree = "<group>"; };
-		95192CEE1F725C6600F3F37A /* RingtoneCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingtoneCell.swift; sourceTree = "<group>"; };
-		95192CF01F72623600F3F37A /* RingtoneRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingtoneRow.swift; sourceTree = "<group>"; };
 		954AEAE21F711ACA002FB7E7 /* DataBaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		9555B8661F70D315008EC24F /* ContactCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCellModel.swift; sourceTree = "<group>"; };
 		9555B8691F70D609008EC24F /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
@@ -93,16 +87,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		951165F51F7272E100386BB4 /* RingtoneCell */ = {
-			isa = PBXGroup;
-			children = (
-				951165F31F72706600386BB4 /* RingtoneCell.xib */,
-				95192CEE1F725C6600F3F37A /* RingtoneCell.swift */,
-				95192CF01F72623600F3F37A /* RingtoneRow.swift */,
-			);
-			name = RingtoneCell;
-			sourceTree = "<group>";
-		};
 		9555B8681F70D31E008EC24F /* ContactCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,7 +118,6 @@
 		9577CF821F6F81B200482E72 /* Contacts App */ = {
 			isa = PBXGroup;
 			children = (
-				951165F51F7272E100386BB4 /* RingtoneCell */,
 				9555B8681F70D31E008EC24F /* ContactCell */,
 				9577CFB71F6FA2B500482E72 /* Coordinators */,
 				9577CFC21F6FEC6300482E72 /* ContactsList */,
@@ -256,7 +239,6 @@
 				9577CFA11F6F8CC600482E72 /* ContactsListViewController.xib in Resources */,
 				951165F71F727AAD00386BB4 /* Portrait_placeholder.png in Resources */,
 				9577CF9D1F6F882400482E72 /* ContactDetailsViewController.xib in Resources */,
-				951165F41F72706600386BB4 /* RingtoneCell.xib in Resources */,
 				9555B86C1F70D609008EC24F /* ContactTableViewCell.xib in Resources */,
 				9577CF8B1F6F81B200482E72 /* Assets.xcassets in Resources */,
 			);
@@ -276,6 +258,7 @@
 				"${BUILT_PRODUCTS_DIR}/ImageRow/ImageRow.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/TPKeyboardAvoiding/TPKeyboardAvoiding.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -283,6 +266,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageRow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPKeyboardAvoiding.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -332,7 +316,6 @@
 				9555B86B1F70D609008EC24F /* ContactTableViewCell.swift in Sources */,
 				9577CFB21F6F9E3500482E72 /* ContactsListViewModel.swift in Sources */,
 				954AEAE31F711ACA002FB7E7 /* DataBaseManager.swift in Sources */,
-				95192CEF1F725C6600F3F37A /* RingtoneCell.swift in Sources */,
 				9577CFA31F6F8FAA00482E72 /* Contact.swift in Sources */,
 				9577CFA01F6F8CC600482E72 /* ContactsListViewController.swift in Sources */,
 				9577CF9C1F6F882400482E72 /* ContactDetailsViewController.swift in Sources */,
@@ -340,7 +323,6 @@
 				9577CFB91F6FA3F100482E72 /* AppCoordinator.swift in Sources */,
 				9555B8671F70D315008EC24F /* ContactCellModel.swift in Sources */,
 				9577CF841F6F81B200482E72 /* AppDelegate.swift in Sources */,
-				95192CF11F72623600F3F37A /* RingtoneRow.swift in Sources */,
 				9577CFB41F6FA23400482E72 /* ContactDetailsViewModel.swift in Sources */,
 				9577CFB61F6FA2AF00482E72 /* Coordinator.swift in Sources */,
 				9577CFC11F6FAD0300482E72 /* RootViewCoordinator.swift in Sources */,

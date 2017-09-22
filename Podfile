@@ -6,4 +6,5 @@ target 'Contacts App' do
   pod 'RealmSwift'
   pod 'Eureka', '~> 3.0'
   pod 'ImageRow', '~> 2.0'
+  pod 'TPKeyboardAvoiding'
 end
