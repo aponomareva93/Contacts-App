@@ -7,12 +7,14 @@ PODS:
   - Realm/Headers (2.10.1)
   - RealmSwift (2.10.1):
     - Realm (= 2.10.1)
+  - SwiftLint (0.22.0)
   - TPKeyboardAvoiding (1.3.1)
 
 DEPENDENCIES:
   - Eureka (~> 3.0)
   - ImageRow (~> 2.0)
   - RealmSwift
+  - SwiftLint
   - TPKeyboardAvoiding
 
 SPEC CHECKSUMS:
@@ -20,8 +22,9 @@ SPEC CHECKSUMS:
   ImageRow: 9dfbfa38c1e62c25d638bc40e97a48c1809443c4
   Realm: fc7a317a5c2c9ba91f5f235ede4e2ea76e9eba0c
   RealmSwift: 505ed6c15942a2e76f5cfa78a8667cfa997ee75b
+  SwiftLint: 1134786caedd2caab0560d2f36b76414a5a56808
   TPKeyboardAvoiding: 0d6af20e95e2850f4c621841225b59ec7d8dd852
 
-PODFILE CHECKSUM: 8c00d80679cec317b36c1823ed5af887cb7c2f67
+PODFILE CHECKSUM: d1e7f443279db36b0bef7cd758c5032f4470645e
 
 COCOAPODS: 1.3.1

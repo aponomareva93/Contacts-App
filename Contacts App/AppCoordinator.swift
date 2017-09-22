@@ -6,7 +6,6 @@
 //  Copyright © 2017 anna. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class AppCoordinator: RootViewCoordinator {
@@ -17,17 +16,18 @@ class AppCoordinator: RootViewCoordinator {
         return self.navigationController
     }
     
-    let window: UIWindow
+    private let window: UIWindow
     
     private lazy var navigationController: UINavigationController = UINavigationController()
     
-    public init(window: UIWindow) {
+    init(window: UIWindow) {
         self.window = window
         
         self.window.rootViewController = self.rootViewController
         self.window.makeKeyAndVisible()
     }
-    public func start() {
+    
+    func start() {
         self.showContactsListViewController()
     }
     

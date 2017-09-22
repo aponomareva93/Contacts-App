@@ -13,10 +13,12 @@ class ContactsListViewController: UIViewController {
     @IBOutlet fileprivate weak var contactsListTableView: UITableView!
     @IBOutlet private weak var searchContactsBar: UISearchBar!
     
-    public weak var delegate: ContactsListViewControllerDelegate?
+    weak var delegate: ContactsListViewControllerDelegate?
     
     private lazy var addBarButtonItem: UIBarButtonItem = {
-        let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                               target: self,
+                                               action: #selector(addButtonTapped))
         return addBarButtonItem
     }()
     
@@ -26,7 +28,8 @@ class ContactsListViewController: UIViewController {
         super.viewDidLoad()
         contactsListTableView?.dataSource = self
         contactsListTableView?.delegate = self
-        contactsListTableView?.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactCell")
+        contactsListTableView?.register(ContactTableViewCell.self,
+                                        forCellReuseIdentifier: Constants.contactsListTableCellIdentifier)
         searchContactsBar?.delegate = self
     }
     
@@ -38,7 +41,7 @@ class ContactsListViewController: UIViewController {
     init(viewModel: ContactsListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.title = "All Contacts"
+        self.title = Constants.contactsListTableTitle
         self.navigationItem.rightBarButtonItem = addBarButtonItem
     }
     
@@ -66,13 +69,16 @@ extension ContactsListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath) as! ContactTableViewCell
-        cell.setup(viewModel: ContactCellModel(with: viewModel.sections[indexPath.section][indexPath.row]))
-        return cell
+        if let cell = tableView.dequeueReusableCell(withIdentifier:
+            Constants.contactsListTableCellIdentifier, for: indexPath) as? ContactTableViewCell {
+            cell.setup(viewModel: ContactCellModel(with: viewModel.sections[indexPath.section][indexPath.row]))
+            return cell
+        }
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if viewModel.sections[section].count == 0 {
+        if viewModel.sections[section].isEmpty {
             return nil
         }
         return viewModel.collation.sectionTitles[section]
@@ -89,7 +95,8 @@ extension ContactsListViewController: UITableViewDataSource {
 
 extension ContactsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.contactsListViewControllerDidTapContact(contactsListViewController: self, contact: viewModel.sections[indexPath.section][indexPath.row])
+        delegate?.contactsListViewControllerDidTapContact(contactsListViewController: self,
+                                                          contact: viewModel.sections[indexPath.section][indexPath.row])
     }
 }
 
@@ -98,4 +105,9 @@ extension ContactsListViewController: UISearchBarDelegate {
         viewModel.search(searchText: searchText)
         self.contactsListTableView.reloadData()
     }
+}
+
+extension Constants {
+    static let contactsListTableCellIdentifier = "ContactCell"
+    static let contactsListTableTitle = "All Contacts"
 }

@@ -20,8 +20,12 @@ class ContactsListViewModel {
     }
     
     func refresh() {
-        contacts = DataBaseManager.loadAllContacts()
-        sortAlphabetically(data: contacts)
+        if let contacts = DataBaseManager.loadAllContacts() {
+            self.contacts = contacts
+            sortAlphabetically(data: contacts)
+        } else {
+            print("ContactsListViewModel::refresh: Cannot load contacts from DataBase")
+        }
     }
     
     func sortAlphabetically(data: [Contact]) {
@@ -30,7 +34,11 @@ class ContactsListViewModel {
         let sortedData = collation.sortedArray(from: data, collationStringSelector: selector)
         for dataItem in sortedData {
             let sectionNumber = collation.section(for: dataItem, collationStringSelector: selector)
-            sections[sectionNumber].append(dataItem as! Contact)
+            if let contactDataItem = dataItem as? Contact {
+                sections[sectionNumber].append(contactDataItem)
+            } else {
+                print("ContactsListViewModel::sortAlphabetically:cannot cast sorted data to Contact type")
+            }
         }
     }
     
@@ -41,5 +49,3 @@ class ContactsListViewModel {
         sortAlphabetically(data: filteredData)
     }
 }
-
-

@@ -7,4 +7,5 @@ target 'Contacts App' do
   pod 'Eureka', '~> 3.0'
   pod 'ImageRow', '~> 2.0'
   pod 'TPKeyboardAvoiding'
+  pod 'SwiftLint'
 end

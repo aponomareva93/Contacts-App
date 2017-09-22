@@ -6,7 +6,6 @@
 //  Copyright © 2017 anna. All rights reserved.
 //
 
-import Foundation
 import RealmSwift
 import Realm
 
@@ -38,8 +37,10 @@ class Contact: Object {
     
     required init(value: Any, schema: RLMSchema) {
         super.init(value: value, schema: schema)
-    }
-    
+    }    
+}
+
+extension Contact {
     func fullName() -> String {
         guard let surname = self.surname else {
             return String(name)

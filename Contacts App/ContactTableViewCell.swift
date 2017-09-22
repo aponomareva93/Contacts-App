@@ -8,8 +8,7 @@
 
 import UIKit
 
-class ContactTableViewCell: UITableViewCell {
-    
+class ContactTableViewCell: UITableViewCell {    
     func setup(viewModel: ContactCellModel) {
         textLabel?.text = viewModel.contactFullName
     }

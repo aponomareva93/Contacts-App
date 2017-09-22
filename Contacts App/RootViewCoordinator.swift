@@ -6,11 +6,10 @@
 //  Copyright © 2017 anna. All rights reserved.
 //
 
-import Foundation
 import UIKit
+
+typealias RootViewCoordinator = Coordinator & RootViewControllerProvider
 
 protocol RootViewControllerProvider: class {
     var rootViewController: UIViewController { get }
 }
-
-typealias RootViewCoordinator = Coordinator & RootViewControllerProvider

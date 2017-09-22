@@ -15,30 +15,51 @@ protocol ContactDetailsViewControllerDelegate: class {
 
 class ContactDetailsViewController: FormViewController {
     
-    lazy var cancelBarButtonItem: UIBarButtonItem = {
-        let cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
+    private lazy var cancelBarButtonItem: UIBarButtonItem = {
+        let cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                  target: self,
+                                                  action: #selector(cancelButtonTapped))
         return cancelBarButtonItem
     }()
     
-    lazy var saveBarButtonItem: UIBarButtonItem = {
-        let saveBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
+    private lazy var saveBarButtonItem: UIBarButtonItem = {
+        let saveBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save,
+                                                target: self,
+                                                action: #selector(saveButtonTapped))
         return saveBarButtonItem
     }()
     
-    lazy var inputToolbar: UIToolbar = {
+    private lazy var inputToolbar: UIToolbar = {
         var toolbar = UIToolbar()
-        toolbar.barStyle = .default
-        toolbar.isTranslucent = true
         toolbar.sizeToFit()
         
-        var doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneKeyPressed(key:)))
-        var flexibleSpaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        var fixedSpaceButton = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        var doneButton = UIBarButtonItem(title: "Done",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(doneKeyPressed(key:)))
+        var flexibleSpaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                                  target: nil,
+                                                  action: nil)
+        var fixedSpaceButton = UIBarButtonItem(barButtonSystemItem: .fixedSpace,
+                                               target: nil,
+                                               action: nil)
         
-        var nextButton = UIBarButtonItem(title: "<", style: .plain, target: self, action: #selector(previousKeyPressed(key:)))
-        var previousButton = UIBarButtonItem(title: ">", style: .plain, target: self, action: #selector(nextKeyPressed(key:)))
+        var nextButton = UIBarButtonItem(title: "<",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(previousKeyPressed(key:)))
+        var previousButton = UIBarButtonItem(title: ">",
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(nextKeyPressed(key:)))
         
-        toolbar.setItems([fixedSpaceButton, nextButton, fixedSpaceButton, previousButton, flexibleSpaceButton, doneButton], animated: false)
+        toolbar.setItems([fixedSpaceButton,
+                          nextButton,
+                          fixedSpaceButton,
+                          previousButton,
+                          flexibleSpaceButton,
+                          doneButton],
+                         animated: false)
         toolbar.isUserInteractionEnabled = true
         
         return toolbar
@@ -59,7 +80,7 @@ class ContactDetailsViewController: FormViewController {
             if let cell = row.baseCell as? _FieldCell<String>,
                 cell.textField.isFirstResponder,
                 let previousRow = previousRow,
-                let previousCell = previousRow.baseCell as? _FieldCell<String>{
+                let previousCell = previousRow.baseCell as? _FieldCell<String> {
                 previousCell.textField.becomeFirstResponder()
             }
             previousRow = row
@@ -80,7 +101,7 @@ class ContactDetailsViewController: FormViewController {
         }
     }
     
-    func setReturnKeyType() {
+    private func setReturnKeyType() {
         for row in form.rows {
             if row != form.rows.last {
                 if let cell = row.baseCell as? _FieldCell<String> {
@@ -114,13 +135,20 @@ class ContactDetailsViewController: FormViewController {
         navigationItem.leftBarButtonItem = cancelBarButtonItem
         navigationItem.rightBarButtonItem = saveBarButtonItem
         
+        createForm()
+    }
+    
+    func createForm() {
         form +++ Section(Constants.contactDetailsTableTitle)
-            
             <<< ImageRow() { row in
                 row.tag = Constants.cellTags.imageRowTag
                 row.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum, .Camera]
                 row.clearAction = .yes(style: .destructive)
-                row.value = viewModel.contactImage                
+                row.value = viewModel.contactImage
+                row.cell.accessoryView?.layer.cornerRadius = Constants.imageCornerRadius
+                row.cell.accessoryView?.frame = CGRect(x: 0, y: 0,
+                                                   width: Constants.imageFrameSize,
+                                                   height: Constants.imageFrameSize)
                 row.onChange { [weak self] row in
                     if row.value == nil {
                         row.value = self?.viewModel.placeholderImage
@@ -129,51 +157,51 @@ class ContactDetailsViewController: FormViewController {
                         self?.viewModel.contactHasImage = true
                     }
                 }
-                }.cellUpdate { cell, row in
-                    cell.accessoryView?.layer.cornerRadius = Constants.imageCornerRadius
-                    cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: Constants.imageFrameSize, height: Constants.imageFrameSize)
-                    
-            }
-            <<< TextRow(){ row in
+                }
+            <<< TextRow() { row in
                 row.title = Constants.rowTitles.nameRowTitle
                 row.tag = Constants.cellTags.nameRowTag
                 row.value = viewModel.contactName
             }
-            <<< TextRow(){ row in
+            <<< TextRow() { row in
                 row.title = Constants.rowTitles.surnameRowTitle
                 row.tag = Constants.cellTags.surnameRowTag
                 row.value = viewModel.contactSurname
             }
-            <<< PhoneRow(){ row in
+            <<< PhoneRow() { row in
                 row.title = Constants.rowTitles.phoneRowTitle
                 row.tag = Constants.cellTags.phoneRowTag
                 row.value = viewModel.contactPhone
                 }.cellUpdate { [weak self] cell, row in
                     cell.textField.inputAccessoryView = self?.inputToolbar
             }
-            <<< TextRow() {
-                row in
+            <<< TextRow() { row in
                 row.title = Constants.rowTitles.ringtoneRowTitle
                 row.tag = Constants.cellTags.ringtoneRowTag
                 row.value = viewModel.contactRingtone
-                }.cellUpdate { cell, row in
-                    let pickerView = UIPickerView()
-                    pickerView.delegate = self
-                    cell.textField.inputView = pickerView
-            }
-            <<< TextAreaRow(){ row in
+                
+                let pickerView = UIPickerView()
+                pickerView.delegate = self
+                row.cell.textField.inputView = pickerView
+                }
+            <<< TextAreaRow() { row in
                 row.tag = Constants.cellTags.noteRowTag
                 row.value = viewModel.contactNote
                 row.placeholder = Constants.rowTitles.noteRowTitle
-                }.cellUpdate{ cell, row in
+                }.cellUpdate { cell, row in
                     if let placeholderLabel = cell.placeholderLabel {
                         placeholderLabel.isHidden = false
                         placeholderLabel.text = Constants.rowTitles.noteRowTitle
-                        cell.textView.contentInset = UIEdgeInsetsMake(placeholderLabel.frame.width, 0.0, 0.0, 0.0)
+                        cell.textView.contentInset = UIEdgeInsets(top: placeholderLabel.frame.width,
+                                                                  left: 0.0,
+                                                                  bottom: 0.0,
+                                                                  right: 0.0)
                     }
                     cell.textView.delegate = self
         }
+        
         setReturnKeyType()
+        
         if !viewModel.isNewContact {
             form +++ ButtonRow() { button in
                 button.title = Constants.rowTitles.seleteButtonTitle
@@ -182,7 +210,7 @@ class ContactDetailsViewController: FormViewController {
                 }
                 .cellUpdate { cell, row in
                     cell.textLabel?.textColor = .red
-                }
+            }
         }
     }
     
@@ -215,7 +243,9 @@ class ContactDetailsViewController: FormViewController {
     }
     
     func deleteButtonTapped(cell: ButtonCellOf<String>, row: ButtonRow) {
-        let alert = UIAlertController(title: "Delete contact", message: "Do you really want to delete this contact?", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Delete contact",
+                                      message: "Do you really want to delete this contact?",
+                                      preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
             self?.viewModel.deleteContact()
             self?.delegate?.contactDetailsViewControllerDidTapClose(self)
@@ -267,7 +297,7 @@ extension ContactDetailsViewController: UITextViewDelegate {
     }
 }
 
-extension UIViewController {
+fileprivate extension UIViewController {
     func showAlert(withTitle title: String, message: String, okButtonTapped: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
@@ -278,7 +308,7 @@ extension UIViewController {
     }
 }
 
-extension Constants {
+fileprivate extension Constants {
     static let contactDetailsTableRowHeight: CGFloat = 45.0
     static let imageCornerRadius: CGFloat = 17.0
     static let imageFrameSize: CGFloat = 34.0

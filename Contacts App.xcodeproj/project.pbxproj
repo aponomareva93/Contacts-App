@@ -186,6 +186,7 @@
 				9577CF7E1F6F81B200482E72 /* Resources */,
 				5F8A0BBBE0749E014E0E9892 /* [CP] Embed Pods Frameworks */,
 				7C4F8CCE873B5C0A692BF27C /* [CP] Copy Pods Resources */,
+				95640F7C1F751B8400F5DD38 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -287,6 +288,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Contacts App/Pods-Contacts App-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		95640F7C1F751B8400F5DD38 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		9D9A4F404202602DF6B54AE7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
