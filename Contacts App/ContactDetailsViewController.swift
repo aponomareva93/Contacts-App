@@ -5,9 +5,9 @@
 //  Created by anna on 18.09.17.
 //  Copyright © 2017 anna. All rights reserved.
 //
-
+import UIKit
 import Eureka
-import ImageRow
+//import ImageRow
 
 protocol ContactDetailsViewControllerDelegate: class {
     func contactDetailsViewControllerDidTapClose(_ contactDetailsViewController: ContactDetailsViewController?)
@@ -65,7 +65,7 @@ class ContactDetailsViewController: FormViewController {
         return toolbar
     }()
     
-    func doneKeyPressed(key: UIBarButtonItem) {
+    @objc func doneKeyPressed(key: UIBarButtonItem) {
         for row in form.rows {
             if let cell = row.baseCell as? _FieldCell<String>,
             cell.textField.isFirstResponder {
@@ -74,7 +74,7 @@ class ContactDetailsViewController: FormViewController {
         }
     }
     
-    func previousKeyPressed(key: UIBarButtonItem) {
+    @objc func previousKeyPressed(key: UIBarButtonItem) {
         var previousRow: BaseRow?
         for row in form.rows {
             if let cell = row.baseCell as? _FieldCell<String>,
@@ -87,7 +87,7 @@ class ContactDetailsViewController: FormViewController {
         }
     }
     
-    func nextKeyPressed(key: UIBarButtonItem) {
+    @objc func nextKeyPressed(key: UIBarButtonItem) {
         var rowIsActive = false
         for row in form.rows {
             if let cell = row.baseCell as? _FieldCell<String>,
@@ -140,7 +140,7 @@ class ContactDetailsViewController: FormViewController {
     
     func createForm() {
         form +++ Section(Constants.contactDetailsTableTitle)
-            <<< ImageRow() { row in
+            /*<<< ImageRow() { row in
                 row.tag = Constants.cellTags.imageRowTag
                 row.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum, .Camera]
                 row.clearAction = .yes(style: .destructive)
@@ -157,7 +157,7 @@ class ContactDetailsViewController: FormViewController {
                         self?.viewModel.contactHasImage = true
                     }
                 }
-                }
+                }*/
             <<< TextRow() { row in
                 row.title = Constants.rowTitles.nameRowTitle
                 row.tag = Constants.cellTags.nameRowTag
@@ -222,11 +222,11 @@ class ContactDetailsViewController: FormViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func cancelButtonTapped(sender: UIBarButtonItem) {
+    @objc func cancelButtonTapped(sender: UIBarButtonItem) {
         delegate?.contactDetailsViewControllerDidTapClose(self)
     }
     
-    func saveButtonTapped(sender: UIBarButtonItem) {
+    @objc func saveButtonTapped(sender: UIBarButtonItem) {
         do {
             try viewModel.saveContact(name: form.rowBy(tag: Constants.cellTags.nameRowTag)?.value,
                                       surname: form.rowBy(tag: Constants.cellTags.surnameRowTag)?.value,

@@ -10,12 +10,12 @@ import RealmSwift
 import Realm
 
 class Contact: Object {
-    dynamic var name = String()
-    dynamic var surname: String?
-    dynamic var phone = String()
-    dynamic var ringtone: String?
-    dynamic var note: String?
-    dynamic var imageName: String?
+    @objc dynamic var name = String()
+    @objc dynamic var surname: String?
+    @objc dynamic var phone = String()
+    @objc dynamic var ringtone: String?
+    @objc dynamic var note: String?
+    @objc dynamic var imageName: String?
     
     init(name: String, surname: String?, phone: String, ringtone: String?, note: String?, imageName: String?) {
         self.name = name

@@ -49,7 +49,7 @@ class ContactsListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addButtonTapped(sender: UIBarButtonItem) {
+    @objc func addButtonTapped(sender: UIBarButtonItem) {
         delegate?.contactsListViewControllerDidTapAddContact(contactsListViewController: self)
     }
 }
