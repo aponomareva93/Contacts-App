@@ -107,7 +107,7 @@ extension ContactsListViewController: UISearchBarDelegate {
     }
 }
 
-extension Constants {
+fileprivate extension Constants {
     static let contactsListTableCellIdentifier = "ContactCell"
     static let contactsListTableTitle = "All Contacts"
 }

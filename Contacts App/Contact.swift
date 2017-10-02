@@ -41,7 +41,7 @@ class Contact: Object {
 }
 
 extension Contact {
-    func fullName() -> String {
+    @objc func fullName() -> String {
         guard let surname = self.surname else {
             return String(name)
         }

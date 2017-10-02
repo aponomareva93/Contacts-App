@@ -13,6 +13,8 @@
 		9555B86B1F70D609008EC24F /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9555B8691F70D609008EC24F /* ContactTableViewCell.swift */; };
 		9555B86C1F70D609008EC24F /* ContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9555B86A1F70D609008EC24F /* ContactTableViewCell.xib */; };
 		95566FE71F7389B600282850 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95566FE61F7389B600282850 /* Constants.swift */; };
+		95626EAB1F7DF9F2003EB441 /* ImageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95626EAA1F7DF9F2003EB441 /* ImageRow.swift */; };
+		95626EAF1F7E1A30003EB441 /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95626EAE1F7E1A30003EB441 /* ImagePickerController.swift */; };
 		9577CF841F6F81B200482E72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577CF831F6F81B200482E72 /* AppDelegate.swift */; };
 		9577CF8B1F6F81B200482E72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9577CF8A1F6F81B200482E72 /* Assets.xcassets */; };
 		9577CF8E1F6F81B200482E72 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9577CF8C1F6F81B200482E72 /* LaunchScreen.storyboard */; };
@@ -39,6 +41,8 @@
 		9555B8691F70D609008EC24F /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		9555B86A1F70D609008EC24F /* ContactTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTableViewCell.xib; sourceTree = "<group>"; };
 		95566FE61F7389B600282850 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		95626EAA1F7DF9F2003EB441 /* ImageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRow.swift; sourceTree = "<group>"; };
+		95626EAE1F7E1A30003EB441 /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
 		9577CF801F6F81B200482E72 /* Contacts App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contacts App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9577CF831F6F81B200482E72 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9577CF8A1F6F81B200482E72 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,6 +101,15 @@
 			name = ContactCell;
 			sourceTree = "<group>";
 		};
+		95626EA91F7DF016003EB441 /* ContactImageCell */ = {
+			isa = PBXGroup;
+			children = (
+				95626EAE1F7E1A30003EB441 /* ImagePickerController.swift */,
+				95626EAA1F7DF9F2003EB441 /* ImageRow.swift */,
+			);
+			name = ContactImageCell;
+			sourceTree = "<group>";
+		};
 		9577CF771F6F81B200482E72 = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +131,7 @@
 		9577CF821F6F81B200482E72 /* Contacts App */ = {
 			isa = PBXGroup;
 			children = (
+				95626EA91F7DF016003EB441 /* ContactImageCell */,
 				9555B8681F70D31E008EC24F /* ContactCell */,
 				9577CFB71F6FA2B500482E72 /* Coordinators */,
 				9577CFC21F6FEC6300482E72 /* ContactsList */,
@@ -333,10 +347,12 @@
 				9577CFA01F6F8CC600482E72 /* ContactsListViewController.swift in Sources */,
 				9577CF9C1F6F882400482E72 /* ContactDetailsViewController.swift in Sources */,
 				95566FE71F7389B600282850 /* Constants.swift in Sources */,
+				95626EAB1F7DF9F2003EB441 /* ImageRow.swift in Sources */,
 				9577CFB91F6FA3F100482E72 /* AppCoordinator.swift in Sources */,
 				9555B8671F70D315008EC24F /* ContactCellModel.swift in Sources */,
 				9577CF841F6F81B200482E72 /* AppDelegate.swift in Sources */,
 				9577CFB41F6FA23400482E72 /* ContactDetailsViewModel.swift in Sources */,
+				95626EAF1F7E1A30003EB441 /* ImagePickerController.swift in Sources */,
 				9577CFB61F6FA2AF00482E72 /* Coordinator.swift in Sources */,
 				9577CFC11F6FAD0300482E72 /* RootViewCoordinator.swift in Sources */,
 				9577CFBD1F6FA4A900482E72 /* ContactDetailsCoordinator.swift in Sources */,

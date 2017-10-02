@@ -7,7 +7,6 @@
 //
 import UIKit
 import Eureka
-//import ImageRow
 
 protocol ContactDetailsViewControllerDelegate: class {
     func contactDetailsViewControllerDidTapClose(_ contactDetailsViewController: ContactDetailsViewController?)
@@ -123,11 +122,6 @@ class ContactDetailsViewController: FormViewController {
     
     fileprivate var viewModel: ContactDetailsViewModel
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView?.rowHeight = Constants.contactDetailsTableRowHeight
-    }
-    
     init(viewModel: ContactDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -139,25 +133,17 @@ class ContactDetailsViewController: FormViewController {
     }
     
     func createForm() {
+        ImageRow.defaultCellUpdate = { cell, row in
+            cell.accessoryView?.layer.cornerRadius = 17
+            cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        }
         form +++ Section(Constants.contactDetailsTableTitle)
-            /*<<< ImageRow() { row in
+            <<< ImageRow() { row in
                 row.tag = Constants.cellTags.imageRowTag
-                row.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum, .Camera]
-                row.clearAction = .yes(style: .destructive)
+                row.title = "Contact Image"
+                row.placeholderImageName = Constants.placeholderImageName
                 row.value = viewModel.contactImage
-                row.cell.accessoryView?.layer.cornerRadius = Constants.imageCornerRadius
-                row.cell.accessoryView?.frame = CGRect(x: 0, y: 0,
-                                                   width: Constants.imageFrameSize,
-                                                   height: Constants.imageFrameSize)
-                row.onChange { [weak self] row in
-                    if row.value == nil {
-                        row.value = self?.viewModel.placeholderImage
-                        self?.viewModel.contactHasImage = false
-                    } else {
-                        self?.viewModel.contactHasImage = true
-                    }
-                }
-                }*/
+            }
             <<< TextRow() { row in
                 row.title = Constants.rowTitles.nameRowTitle
                 row.tag = Constants.cellTags.nameRowTag
@@ -309,10 +295,6 @@ fileprivate extension UIViewController {
 }
 
 fileprivate extension Constants {
-    static let contactDetailsTableRowHeight: CGFloat = 45.0
-    static let imageCornerRadius: CGFloat = 17.0
-    static let imageFrameSize: CGFloat = 34.0
-    
     static let contactDetailsTableTitle = "Contact Details"
     static let cellTags = (
         imageRowTag: "ImageRow",
@@ -340,4 +322,6 @@ fileprivate extension Constants {
         "Ringtone 4",
         "Ringtone 5"
     ]
+    
+    static let placeholderImageName = "Portrait_placeholder.png"
 }

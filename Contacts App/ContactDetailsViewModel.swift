@@ -11,15 +11,8 @@ import UIKit
 class ContactDetailsViewModel {
     fileprivate var contact: Contact?
     
-    var contactHasImage: Bool
-    
     init(contact: Contact? = nil) {
         self.contact = contact
-        if contact?.imageName != nil {
-            contactHasImage = true
-        } else {
-            contactHasImage = false
-        }
     }
     
     func saveContact(name: String?,
@@ -38,13 +31,12 @@ class ContactDetailsViewModel {
         }
         
         var imageName: String? = nil
-        if contactHasImage,
-            let image = image {
+        if let image = image {
             imageName = String(Int(Date().timeIntervalSince1970)) + "_newImage.png"
             let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
             if let documentsPath = documentsPath,
                 let imageName = imageName {
-                let destinationPath = documentsPath.appending( "/" + imageName)
+                let destinationPath = documentsPath.appending("/" + imageName)
                 do {
                     try UIImagePNGRepresentation(image)?.write(to: URL(fileURLWithPath: destinationPath))
                 } catch {
@@ -118,7 +110,7 @@ extension ContactDetailsViewModel {
     
     var contactImage: UIImage? {
         guard let imageName = contact?.imageName else {
-            return placeholderImage
+            return nil
         }
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
         if let path = path {
@@ -128,15 +120,10 @@ extension ContactDetailsViewModel {
         print("ContactDetailsViewModel::contactImage: Cannot find path for loading image")
         return nil
     }
-    
-    var placeholderImage: UIImage? {
-        return UIImage(named: Constants.placeholderImageName)
-    }
 }
 
 fileprivate extension Constants {
-    static let defaultContactDetailsViewTitle = "New Contact"    
-    static let placeholderImageName = "Portrait_placeholder.png"
+    static let defaultContactDetailsViewTitle = "New Contact"
     
     static let requiredFieldsAreEmptyError = (domain: "contacts domain",
                                               code: 1,
