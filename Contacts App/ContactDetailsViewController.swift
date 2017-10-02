@@ -243,7 +243,7 @@ class ContactDetailsViewController: FormViewController {
     }
 }
 
-extension ContactDetailsViewController: UIPickerViewDelegate {
+extension ContactDetailsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return Constants.ringtones.count
     }
