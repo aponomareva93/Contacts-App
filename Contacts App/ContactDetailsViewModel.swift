@@ -8,6 +8,15 @@
 
 import UIKit
 
+fileprivate extension Constants {
+    static let defaultContactDetailsViewTitle = "New Contact"
+    
+    static let requiredFieldsAreEmptyError = (domain: "contacts domain",
+                                              code: 1,
+                                              userInfo: [NSLocalizedDescriptionKey:
+                                                "Required fields Name and Phone are not filled"])
+}
+
 class ContactDetailsViewModel {
     fileprivate var contact: Contact?
     
@@ -120,13 +129,4 @@ extension ContactDetailsViewModel {
         print("ContactDetailsViewModel::contactImage: Cannot find path for loading image")
         return nil
     }
-}
-
-fileprivate extension Constants {
-    static let defaultContactDetailsViewTitle = "New Contact"
-    
-    static let requiredFieldsAreEmptyError = (domain: "contacts domain",
-                                              code: 1,
-                                              userInfo: [NSLocalizedDescriptionKey:
-                                                "Required fields Name and Phone are not filled"])
 }

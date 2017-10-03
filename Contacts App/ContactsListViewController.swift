@@ -8,6 +8,11 @@
 
 import UIKit
 
+fileprivate extension Constants {
+    static let contactsListTableCellIdentifier = "ContactCell"
+    static let contactsListTableTitle = "All Contacts"
+}
+
 class ContactsListViewController: UIViewController {
 
     @IBOutlet fileprivate weak var contactsListTableView: UITableView!
@@ -106,9 +111,4 @@ extension ContactsListViewController: UISearchBarDelegate {
         viewModel.search(searchText: searchText)
         self.contactsListTableView.reloadData()
     }
-}
-
-fileprivate extension Constants {
-    static let contactsListTableCellIdentifier = "ContactCell"
-    static let contactsListTableTitle = "All Contacts"
 }

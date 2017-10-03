@@ -12,6 +12,38 @@ protocol ContactDetailsViewControllerDelegate: class {
     func contactDetailsViewControllerDidTapClose(_ contactDetailsViewController: ContactDetailsViewController?)
 }
 
+fileprivate extension Constants {
+    static let contactDetailsTableTitle = "Contact Details"
+    static let cellTags = (
+        imageRowTag: "ImageRow",
+        nameRowTag: "NameRow",
+        surnameRowTag: "SurnameRow",
+        phoneRowTag: "PhoneRow",
+        ringtoneRowTag: "RingtoneRow",
+        noteRowTag: "NoteRow",
+        deleteButtonTag: "DeleteButton"
+    )
+    
+    static let rowTitles = (
+        nameRowTitle: "Name",
+        surnameRowTitle: "Surname",
+        phoneRowTitle: "Phone Number",
+        ringtoneRowTitle: "Ringtone",
+        seleteButtonTitle: "Delete Contact",
+        noteRowTitle: "Note"
+    )
+    
+    static let ringtones = [
+        "Ringtone 1",
+        "Ringtone 2",
+        "Ringtone 3",
+        "Ringtone 4",
+        "Ringtone 5"
+    ]
+    
+    static let placeholderImageName = "Portrait_placeholder.png"
+}
+
 class ContactDetailsViewController: FormViewController {
     
     private lazy var cancelBarButtonItem: UIBarButtonItem = {
@@ -292,36 +324,4 @@ fileprivate extension UIViewController {
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
-}
-
-fileprivate extension Constants {
-    static let contactDetailsTableTitle = "Contact Details"
-    static let cellTags = (
-        imageRowTag: "ImageRow",
-        nameRowTag: "NameRow",
-        surnameRowTag: "SurnameRow",
-        phoneRowTag: "PhoneRow",
-        ringtoneRowTag: "RingtoneRow",
-        noteRowTag: "NoteRow",
-        deleteButtonTag: "DeleteButton"
-    )
-    
-    static let rowTitles = (
-        nameRowTitle: "Name",
-        surnameRowTitle: "Surname",
-        phoneRowTitle: "Phone Number",
-        ringtoneRowTitle: "Ringtone",
-        seleteButtonTitle: "Delete Contact",
-        noteRowTitle: "Note"
-    )
-    
-    static let ringtones = [
-        "Ringtone 1",
-        "Ringtone 2",
-        "Ringtone 3",
-        "Ringtone 4",
-        "Ringtone 5"
-    ]
-    
-    static let placeholderImageName = "Portrait_placeholder.png"
 }
