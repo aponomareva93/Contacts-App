@@ -11,9 +11,25 @@ import RealmSwift
 
 class ContactsListViewModel {
     
-    var contacts = [Contact]()
-    var sections = [[Contact]]()
+    private var contacts = [Contact]()
+    private var sections = [[Contact]]()
     let collation = UILocalizedIndexedCollation.current()
+    
+    var sectionsCount: Int {
+        return sections.count
+    }
+    
+    func numberOfContacts(in section: Int) -> Int {
+        return sections[section].count
+    }
+    
+    func contact(section: Int, row: Int) -> Contact? {
+        if sections.indices.contains(section),
+            sections[section].indices.contains(row) {
+            return sections[section][row]
+        }
+        return nil
+    }
         
     init() {
         refresh()

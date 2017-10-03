@@ -56,29 +56,29 @@ class ContactsListViewController: UIViewController {
 
 protocol ContactsListViewControllerDelegate: class {
     func contactsListViewControllerDidTapAddContact(contactsListViewController: ContactsListViewController)
-    func contactsListViewControllerDidTapContact(contactsListViewController: ContactsListViewController, contact: Contact)
+    func contactsListViewControllerDidTapContact(contactsListViewController: ContactsListViewController, contact: Contact?)
 }
 
 extension ContactsListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.sections.count
+        return viewModel.sectionsCount
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.sections[section].count
+        return viewModel.numberOfContacts(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier:
             Constants.contactsListTableCellIdentifier, for: indexPath) as? ContactTableViewCell {
-            cell.setup(viewModel: ContactCellModel(with: viewModel.sections[indexPath.section][indexPath.row]))
+            cell.setup(viewModel: ContactCellModel(with: viewModel.contact(section: indexPath.section, row: indexPath.row)))
             return cell
         }
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if viewModel.sections[section].isEmpty {
+        if viewModel.numberOfContacts(in: section) == 0 {
             return nil
         }
         return viewModel.collation.sectionTitles[section]
@@ -96,7 +96,8 @@ extension ContactsListViewController: UITableViewDataSource {
 extension ContactsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.contactsListViewControllerDidTapContact(contactsListViewController: self,
-                                                          contact: viewModel.sections[indexPath.section][indexPath.row])
+                                                          contact: viewModel.contact(section: indexPath.section,
+                                                                                     row: indexPath.row))
     }
 }
 

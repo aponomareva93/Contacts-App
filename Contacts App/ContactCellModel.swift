@@ -11,7 +11,11 @@ import Foundation
 class ContactCellModel {
     let contactFullName: String
     
-    init(with contact: Contact) {
-        self.contactFullName = contact.fullName()
+    init(with contact: Contact?) {
+        if let contact = contact {
+            self.contactFullName = contact.fullName()
+        } else {
+            contactFullName = String()
+        }
     }
 }
