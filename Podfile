@@ -16,3 +16,5 @@ post_install do |installer|
      end
    end
  end
+
+inhibit_all_warnings!
